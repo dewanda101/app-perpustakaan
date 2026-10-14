@@ -24,13 +24,15 @@
                     <td>{{ $category['nama_kategori'] }}</td>
                     <td>{{ $category['deskripsi'] ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $category['id']) }}">Edit</a>
-                        |
-                        <form class="inline" action="{{ route('categories.destroy', $category['id']) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Hapus</button>
-                        </form>
+                        <div class="aksi-wrap">
+                            <a href="{{ route('categories.edit', $category['id']) }}" class="btn-edit">✏️ Edit</a>
+                            <form class="inline" action="{{ route('categories.destroy', $category['id']) }}" method="POST"
+                                  onsubmit="return confirm('Yakin hapus kategori ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-hapus">🗑️ Hapus</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty

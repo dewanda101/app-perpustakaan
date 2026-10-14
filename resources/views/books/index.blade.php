@@ -32,15 +32,16 @@
                     <td>{{ $book['stok'] }}</td>
                     <td>{{ $book['category']['nama_kategori'] }}</td>
                     <td>
-                        <a href="{{ route('books.show', $book['id']) }}">Detail</a>
-                        |
-                        <a href="{{ route('books.edit', $book['id']) }}">Edit</a>
-                        |
-                        <form class="inline" action="{{ route('books.destroy', $book['id']) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Hapus</button>
-                        </form>
+                        <div class="aksi-wrap">
+                            <a href="{{ route('books.show', $book['id']) }}" class="btn-detail">🔍 Detail</a>
+                            <a href="{{ route('books.edit', $book['id']) }}" class="btn-edit">✏️ Edit</a>
+                            <form class="inline" action="{{ route('books.destroy', $book['id']) }}" method="POST"
+                                  onsubmit="return confirm('Yakin hapus buku ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-hapus">🗑️ Hapus</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty

@@ -39,15 +39,16 @@
                     <td>{{ $member['nomor_telepon'] }}</td>
                     <td>{{ ucfirst($member['status']) }}</td>
                     <td>
-                        <a href="{{ route('members.show', $member['id']) }}">Detail</a>
-                        |
-                        <a href="{{ route('members.edit', $member['id']) }}">Edit</a>
-                        |
-                        <form class="inline" action="{{ route('members.destroy', $member['id']) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Hapus</button>
-                        </form>
+                        <div class="aksi-wrap">
+                            <a href="{{ route('members.show', $member['id']) }}" class="btn-detail">🔍 Detail</a>
+                            <a href="{{ route('members.edit', $member['id']) }}" class="btn-edit">✏️ Edit</a>
+                            <form class="inline" action="{{ route('members.destroy', $member['id']) }}" method="POST"
+                                  onsubmit="return confirm('Yakin hapus anggota ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-hapus">🗑️ Hapus</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty

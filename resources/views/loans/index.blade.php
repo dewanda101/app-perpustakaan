@@ -44,23 +44,24 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('loans.show', $loan['id']) }}">Detail</a>
-                        |
-                        <a href="{{ route('loans.edit', $loan['id']) }}">Edit</a>
-                        |
-                        <form class="inline" action="{{ route('loans.destroy', $loan['id']) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Hapus</button>
-                        </form>
-                        @if ($loan['status'] === 'dipinjam')
-                            |
-                            <form class="inline" action="{{ route('loans.kembalikan', $loan['id']) }}" method="POST">
+                        <div class="aksi-wrap">
+                            <a href="{{ route('loans.show', $loan['id']) }}" class="btn-detail">🔍 Detail</a>
+                            <a href="{{ route('loans.edit', $loan['id']) }}" class="btn-edit">✏️ Edit</a>
+                            <form class="inline" action="{{ route('loans.destroy', $loan['id']) }}" method="POST"
+                                  onsubmit="return confirm('Yakin hapus data peminjaman ini?')">
                                 @csrf
-                                @method('PUT')
-                                <button type="submit" class="btn-kembalikan">Kembalikan</button>
+                                @method('DELETE')
+                                <button type="submit" class="btn-hapus">🗑️ Hapus</button>
                             </form>
-                        @endif
+                            @if ($loan['status'] === 'dipinjam')
+                                <form class="inline" action="{{ route('loans.kembalikan', $loan['id']) }}" method="POST"
+                                      onsubmit="return confirm('Konfirmasi pengembalian buku ini?')">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn-kembali">✅ Kembalikan</button>
+                                </form>
+                            @endif
+                        </div>
                     </td>
                 </tr>
             @empty
