@@ -22,8 +22,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('books',   BookController::class);
     Route::resource('members', MemberController::class);
 
-    // Route laporan HARUS sebelum Route::resource('loans') supaya /loans/report
-    // tidak tertangkap parameter {loan} dari loans.show
+    // /loans/report harus didaftarkan SEBELUM resource loans,
+    // supaya tidak tertangkap parameter {loan} dari loans.show
     Route::get('/loans/report', [LoanController::class, 'report'])->name('loans.report');
     Route::resource('loans',   LoanController::class);
     Route::put('/loans/{id}/kembalikan', [LoanController::class, 'kembalikan'])

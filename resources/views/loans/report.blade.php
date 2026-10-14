@@ -32,15 +32,11 @@
                     </td>
                     <td>{{ $loan['tanggal_pinjam'] }}</td>
                     <td>{{ $loan['tanggal_kembali'] }}</td>
-                    <td>
-                        <span class="badge badge-{{ $loan['status'] }}">
-                            {{ ucfirst($loan['status']) }}
-                        </span>
-                    </td>
+                    <td>{{ ucfirst($loan['status']) }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7">Belum ada data peminjaman.</td>
+                    <td colspan="7">Belum ada data peminjaman atau server API tidak terhubung.</td>
                 </tr>
             @endforelse
         </tbody>

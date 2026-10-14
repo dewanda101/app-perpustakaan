@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
+     * Mendaftarkan view pagination custom supaya tidak pakai Tailwind CSS.
      */
     public function boot(): void
     {

@@ -1,3 +1,4 @@
+{{-- File: resources/views/vendor/pagination/custom.blade.php --}}
 @if ($paginator->hasPages())
     <nav class="pagination">
         @if ($paginator->onFirstPage())

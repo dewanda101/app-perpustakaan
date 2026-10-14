@@ -18,6 +18,10 @@ class LoanController extends Controller
         return view('loans.index', compact('loans'));
     }
 
+    /**
+     * GET /loans/report
+     * Laporan peminjaman - data dari GET /api/loans lewat HTTP Client.
+     */
     public function report(Request $request)
     {
         $body = ['data' => [], 'meta' => null];

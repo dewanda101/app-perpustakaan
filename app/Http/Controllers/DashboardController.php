@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
+    /**
+     * GET /
+     * Tampilkan dashboard dengan statistik dari GET /api/stats.
+     */
     public function index()
     {
         $stats = [

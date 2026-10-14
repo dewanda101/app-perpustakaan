@@ -46,7 +46,7 @@ class BookFactory extends Factory
     public function definition(): array
     {
         $category = Category::inRandomOrder()->first();
-        $pool = $this->judulPerKategori[$category?->nama_kategori] ?? $this->judulPerKategori['Novel'];
+        $pool     = $this->judulPerKategori[$category?->nama_kategori] ?? $this->judulPerKategori['Novel'];
 
         return [
             'judul'        => fake()->randomElement($pool),
