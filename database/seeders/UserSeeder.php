@@ -11,9 +11,9 @@ class UserSeeder extends Seeder
     /**
      * Run the database seeds.
      * Akun login:
-     * - admin@pens.ac.id  / password  → role: admin
-     * - andi@pens.ac.id   / password  → role: petugas
-     * - sari@pens.ac.id   / password  → role: petugas
+     * - admin@pens.ac.id    / password  → role: admin
+     * - petugas1@pens.ac.id / password  → role: petugas
+     * - petugas2@pens.ac.id / password  → role: petugas
      */
     public function run(): void
     {
@@ -21,31 +21,30 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@pens.ac.id'],
             [
-                'name' => 'Budi',
+                'name'     => 'Bambang Sutrisno',
                 'password' => Hash::make('password'),
-                'role' => 'admin',
+                'role'     => 'admin',
             ]
         );
 
         // Petugas 1
         User::updateOrCreate(
-            ['email' => 'andi@pens.ac.id'],
+            ['email' => 'petugas1@pens.ac.id'],
             [
-                'name' => 'Andi',
+                'name'     => 'Siti Rahmawati',
                 'password' => Hash::make('password'),
-                'role' => 'petugas',
+                'role'     => 'petugas',
             ]
         );
 
         // Petugas 2
         User::updateOrCreate(
-            ['email' => 'sari@pens.ac.id'],
+            ['email' => 'petugas2@pens.ac.id'],
             [
-                'name' => 'Sari',
+                'name'     => 'Ahmad Fauzi',
                 'password' => Hash::make('password'),
-                'role' => 'petugas',
+                'role'     => 'petugas',
             ]
         );
     }
 }
-
