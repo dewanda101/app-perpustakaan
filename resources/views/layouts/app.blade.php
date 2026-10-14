@@ -12,18 +12,30 @@
         nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
         nav ul li a { color: #cbd5e1; text-decoration: none; padding: 6px 4px; }
         nav ul li a.active { color: #fff; font-weight: bold; border-bottom: 2px solid #fff; }
+        nav .navbar-user { display: flex; align-items: center; gap: 12px; color: #cbd5e1; font-size: 14px; }
+        nav .btn-logout { background: none; border: 1px solid #cbd5e1; color: #cbd5e1; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        nav .btn-logout:hover { background: #1e40af; color: #fff; }
         main { max-width: 900px; margin: 0 auto; padding: 30px 40px; }
         table { border-collapse: collapse; width: 100%; margin-top: 16px; }
         th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
         .alert-success { background: #d1fae5; color: #065f46; padding: 10px 14px; border-radius: 4px; margin-bottom: 16px; }
         .btn { display: inline-block; padding: 6px 14px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; }
-        .btn-kembalikan { padding: 4px 10px; background: #059669; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
         .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 13px; font-weight: bold; }
         .badge-dikembalikan { background: #d1fae5; color: #065f46; }
         .badge-dipinjam { background: #fef3c7; color: #92400e; }
         .badge-terlambat { background: #fee2e2; color: #991b1b; }
         form.inline { display: inline; }
         footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; border-top: 1px solid #e5e7eb; margin-top: 40px; }
+        /* ── Tombol Aksi ── */
+        .aksi-wrap { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .btn-detail  { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; border-radius:6px; font-size:13px; text-decoration:none; font-weight:500; transition:all .15s; }
+        .btn-edit    { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; background:#fffbeb; color:#b45309; border:1px solid #fde68a; border-radius:6px; font-size:13px; text-decoration:none; font-weight:500; transition:all .15s; }
+        .btn-hapus   { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; background:#fff1f2; color:#be123c; border:1px solid #fecdd3; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; border:1px solid #fecdd3; }
+        .btn-kembali { display:inline-flex; align-items:center; gap:4px; padding:5px 10px; background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; }
+        .btn-detail:hover  { background:#dbeafe; }
+        .btn-edit:hover    { background:#fef3c7; }
+        .btn-hapus:hover   { background:#ffe4e6; }
+        .btn-kembali:hover { background:#dcfce7; }
         label { display: block; margin-top: 12px; font-weight: bold; }
         input[type="text"], input[type="number"], select, textarea { width: 100%; max-width: 500px; padding: 6px; margin-top: 4px; box-sizing: border-box; }
         .error { color: #b91c1c; font-size: 14px; margin-top: 4px; }
