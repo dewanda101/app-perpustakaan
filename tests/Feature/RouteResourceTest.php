@@ -2,15 +2,22 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class RouteResourceTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_books_index_route_returns_expected_response(): void
     {
-        $this->get('/books')
+        $user = User::factory()->create(['role' => 'petugas']);
+
+        $this->actingAs($user)
+            ->get('/books')
             ->assertOk()
-            ->assertSeeText('BookController@index');
+            ->assertSeeText('Daftar Buku');
     }
 
     public function test_categories_detail_route_returns_method_not_allowed(): void

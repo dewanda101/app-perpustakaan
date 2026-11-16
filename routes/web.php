@@ -14,6 +14,13 @@ Route::get('/login',  [AuthController::class, 'showLogin'])->name('login')->midd
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// ── Admin info route group (Tugas P-2) ─────────────────────────────────────
+Route::prefix('admin')->group(function () {
+    Route::get('/info', function () {
+        return 'Admin info';
+    });
+});
+
 // ── Protected (wajib login) ─────────────────────────────────────────────────
 Route::middleware(['auth'])->group(function () {
 
