@@ -4,11 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistem Perpustakaan Digital Kampus PENS">
     <title>@yield('title', 'Perpustakaan Digital Kampus')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ── Accessibility: Skip Navigation ─────────────────────── */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 0 0 10px 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 9999;
+            transition: top .2s;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* ── Accessibility: Focus Visible ───────────────────────── */
+        :focus-visible {
+            outline: 3px solid #818cf8;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        button:focus-visible, a:focus-visible, input:focus-visible,
+        select:focus-visible, textarea:focus-visible {
+            outline: 3px solid #818cf8;
+            outline-offset: 2px;
+        }
 
         :root {
             --sidebar-w: 240px;
@@ -557,63 +587,73 @@
 </head>
 <body>
     <!-- Sidebar overlay (mobile) -->
-    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()" aria-hidden="true"></div>
+
+    <!-- ── Skip Navigation (Aksesibilitas) ── -->
+    <a href="#main-content" class="skip-link">Langsung ke konten utama</a>
 
     <!-- ── Sidebar ── -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu navigasi utama">
         <div class="sidebar-brand">
-            <span class="brand-icon">📚</span>
+            <span class="brand-icon" aria-hidden="true">📚</span>
             <div class="brand-name">Perpustakaan Digital</div>
             <div class="brand-sub">Kampus PENS</div>
         </div>
 
         @auth
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Menu Utama</div>
+        <nav class="sidebar-nav" aria-label="Menu utama">
+            <div class="nav-section-label" aria-hidden="true">Menu Utama</div>
 
             <a href="{{ route('dashboard') }}"
-               class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <span class="nav-icon">🏠</span> Dashboard
+               class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+               aria-label="Dashboard" aria-current="{{ request()->routeIs('dashboard') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
             </a>
 
             <a href="{{ route('books.index') }}"
-               class="nav-item {{ request()->routeIs('books.*') ? 'active' : '' }}">
-                <span class="nav-icon">📖</span> Buku
+               class="nav-item {{ request()->routeIs('books.*') ? 'active' : '' }}"
+               aria-label="Kelola Buku" aria-current="{{ request()->routeIs('books.*') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">📖</span> Buku
             </a>
 
             @if (auth()->user()->role === 'admin')
             <a href="{{ route('categories.index') }}"
-               class="nav-item {{ request()->routeIs('categories.*') ? 'active' : '' }}">
-                <span class="nav-icon">🏷️</span> Kategori
+               class="nav-item {{ request()->routeIs('categories.*') ? 'active' : '' }}"
+               aria-label="Kelola Kategori" aria-current="{{ request()->routeIs('categories.*') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">🏷️</span> Kategori
             </a>
             @endif
 
             <a href="{{ route('members.index') }}"
-               class="nav-item {{ request()->routeIs('members.*') ? 'active' : '' }}">
-                <span class="nav-icon">👥</span> Anggota
+               class="nav-item {{ request()->routeIs('members.*') ? 'active' : '' }}"
+               aria-label="Kelola Anggota" aria-current="{{ request()->routeIs('members.*') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">👥</span> Anggota
             </a>
 
             <a href="{{ route('loans.index') }}"
-               class="nav-item {{ (request()->routeIs('loans.index') || request()->routeIs('loans.create') || request()->routeIs('loans.show') || request()->routeIs('loans.edit')) ? 'active' : '' }}">
-                <span class="nav-icon">📋</span> Peminjaman
+               class="nav-item {{ (request()->routeIs('loans.index') || request()->routeIs('loans.create') || request()->routeIs('loans.show') || request()->routeIs('loans.edit')) ? 'active' : '' }}"
+               aria-label="Kelola Peminjaman" aria-current="{{ request()->routeIs('loans.index') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">📋</span> Peminjaman
             </a>
 
             <a href="{{ route('loans.report') }}"
-               class="nav-item {{ request()->routeIs('loans.report') ? 'active' : '' }}">
-                <span class="nav-icon">📊</span> Laporan
+               class="nav-item {{ request()->routeIs('loans.report') ? 'active' : '' }}"
+               aria-label="Laporan Peminjaman" aria-current="{{ request()->routeIs('loans.report') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">📊</span> Laporan
             </a>
 
-            <div class="nav-section-label">Akun</div>
+            <div class="nav-section-label" aria-hidden="true">Akun</div>
 
             <a href="{{ route('profil') }}"
-               class="nav-item {{ request()->routeIs('profil') ? 'active' : '' }}">
-                <span class="nav-icon">👤</span> Profil Saya
+               class="nav-item {{ request()->routeIs('profil') ? 'active' : '' }}"
+               aria-label="Profil Saya" aria-current="{{ request()->routeIs('profil') ? 'page' : 'false' }}">
+                <span class="nav-icon" aria-hidden="true">👤</span> Profil Saya
             </a>
         </nav>
 
         <div class="sidebar-footer">
-            <div class="user-card">
-                <div class="user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+            <div class="user-card" role="status" aria-label="Login sebagai {{ auth()->user()->name }}">
+                <div class="user-avatar" aria-hidden="true">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
                 <div class="user-info">
                     <div class="user-name">{{ auth()->user()->name }}</div>
                     <div class="user-role">{{ ucfirst(auth()->user()->role) }}</div>
@@ -621,8 +661,8 @@
             </div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="btn-logout">
-                    <span>🚪</span> Logout
+                <button type="submit" class="btn-logout" aria-label="Keluar dari sistem">
+                    <span aria-hidden="true">🚪</span> Logout
                 </button>
             </form>
         </div>
@@ -632,22 +672,24 @@
     <!-- ── Page Wrapper ── -->
     <div class="page-wrapper">
         <!-- Topbar -->
-        <header class="topbar">
+        <header class="topbar" role="banner">
             <div style="display:flex;align-items:center;gap:12px;">
-                <button class="ham-btn" onclick="toggleSidebar()" aria-label="Menu">
-                    <span></span><span></span><span></span>
+                <button class="ham-btn" onclick="toggleSidebar()" aria-label="Buka/tutup menu navigasi" aria-expanded="false" id="ham-btn">
+                    <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
                 </button>
                 <div>
-                    <div class="topbar-title">@yield('page_title', 'Dashboard')</div>
+                    <div class="topbar-title" role="heading" aria-level="1">@yield('page_title', 'Dashboard')</div>
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
                 @auth
-                <span style="font-size:13px;color:var(--text-muted);display:none;" id="topbar-date">{{ date('d M Y') }}</span>
+                <span style="font-size:13px;color:var(--text-muted);" aria-label="Tanggal hari ini">{{ date('d M Y') }}</span>
                 @endauth
                 <!-- Dark Mode Toggle -->
                 <button onclick="toggleDark()" id="dark-btn"
                     title="Toggle Dark Mode"
+                    aria-label="Aktifkan/nonaktifkan mode gelap"
+                    aria-pressed="false"
                     style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);
                            background:var(--surface);cursor:pointer;font-size:17px;display:flex;
                            align-items:center;justify-content:center;transition:all .2s;color:var(--text);">
@@ -656,12 +698,12 @@
             </div>
         </header>
 
-        <main>
+        <main id="main-content" role="main" tabindex="-1">
             @include('partials.alert')
             @yield('content')
         </main>
 
-        <footer>
+        <footer role="contentinfo">
             &copy; {{ date('Y') }} Sistem Perpustakaan Digital Kampus &mdash; PENS
         </footer>
     </div>
@@ -672,8 +714,13 @@
     <script>
         /* ── Sidebar toggle ───────────────────────────────────── */
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('overlay').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const hamBtn  = document.getElementById('ham-btn');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            const isOpen = sidebar.classList.contains('open');
+            if (hamBtn) hamBtn.setAttribute('aria-expanded', isOpen);
         }
 
         /* ── Dark Mode ────────────────────────────────────────── */
@@ -683,10 +730,10 @@
         function applyDark(on) {
             if (on) {
                 root.classList.add('dark');
-                if (darkBtn) darkBtn.textContent = '☀️';
+                if (darkBtn) { darkBtn.textContent = '☀️'; darkBtn.setAttribute('aria-pressed','true'); }
             } else {
                 root.classList.remove('dark');
-                if (darkBtn) darkBtn.textContent = '🌙';
+                if (darkBtn) { darkBtn.textContent = '🌙'; darkBtn.setAttribute('aria-pressed','false'); }
             }
         }
 

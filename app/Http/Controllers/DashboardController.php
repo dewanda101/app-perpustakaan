@@ -2,33 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Http;
+use App\Models\Book;
+use App\Models\Loan;
+use App\Models\Member;
 
 class DashboardController extends Controller
 {
     /**
      * GET /
-     * Tampilkan dashboard dengan statistik dari GET /api/stats.
+     * Tampilkan dashboard dengan statistik langsung dari database.
      */
     public function index()
     {
         $stats = [
-            'total_buku'       => 0,
-            'total_anggota'    => 0,
-            'peminjaman_aktif' => 0,
+            'total_buku'       => Book::count(),
+            'total_anggota'    => Member::count(),
+            'peminjaman_aktif' => Loan::where('status', 'dipinjam')->count(),
         ];
 
-        try {
-            $response = Http::get(config('services.internal_api.base_url') . '/api/stats');
+        // Data tambahan untuk dashboard
+        $recent_loans = Loan::with(['member', 'user', 'loanItems.book'])
+            ->latest()
+            ->take(5)
+            ->get()
+            ->toArray();
 
-            if ($response->successful()) {
-                $stats = $response->json();
-            }
-        } catch (ConnectionException $e) {
-            // Server internal API (port 8011) tidak bisa dihubungi - statistik tetap tampil nol.
-        }
+        $overdue_count = Loan::where('status', 'dipinjam')
+            ->whereDate('tanggal_kembali', '<', now()->toDateString())
+            ->count();
 
-        return view('dashboard', compact('stats'));
+        return view('dashboard', compact('stats', 'recent_loans', 'overdue_count'));
     }
 }
