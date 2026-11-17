@@ -1,6 +1,6 @@
 {{-- File: resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,6 +33,32 @@
             --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 24px rgba(0,0,0,0.10);
         }
+
+        /* ── Dark Mode ───────────────────────────────────────────── */
+        .dark {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-light: #64748b;
+            --primary-light: #1e1b4b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
+        }
+        .dark .topbar { background: #1e293b; }
+        .dark table thead tr { background: #293548; }
+        .dark th { color: #94a3b8; }
+        .dark td { color: #e2e8f0; }
+        .dark input, .dark select, .dark textarea {
+            background: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+        .dark .stat-card { background: #1e293b; }
+        .dark code { background: #293548 !important; color: #a5b4fc; }
+        .dark .chk-list { background: #1e293b; border-color: #334155; }
+        .dark .info-blk { background: #293548; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -615,8 +641,18 @@
                     <div class="topbar-title">@yield('page_title', 'Dashboard')</div>
                 </div>
             </div>
-            <div class="topbar-breadcrumb">
-                @auth {{ date('l, d F Y') }} @endauth
+            <div style="display:flex;align-items:center;gap:10px;">
+                @auth
+                <span style="font-size:13px;color:var(--text-muted);display:none;" id="topbar-date">{{ date('d M Y') }}</span>
+                @endauth
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDark()" id="dark-btn"
+                    title="Toggle Dark Mode"
+                    style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);
+                           background:var(--surface);cursor:pointer;font-size:17px;display:flex;
+                           align-items:center;justify-content:center;transition:all .2s;color:var(--text);">
+                    🌙
+                </button>
             </div>
         </header>
 
@@ -630,11 +666,121 @@
         </footer>
     </div>
 
+    <!-- Toast container -->
+    <div id="toast-wrap" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+
     <script>
+        /* ── Sidebar toggle ───────────────────────────────────── */
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('overlay').classList.toggle('open');
         }
+
+        /* ── Dark Mode ────────────────────────────────────────── */
+        const root = document.getElementById('html-root');
+        const darkBtn = document.getElementById('dark-btn');
+
+        function applyDark(on) {
+            if (on) {
+                root.classList.add('dark');
+                if (darkBtn) darkBtn.textContent = '☀️';
+            } else {
+                root.classList.remove('dark');
+                if (darkBtn) darkBtn.textContent = '🌙';
+            }
+        }
+
+        function toggleDark() {
+            const isDark = root.classList.contains('dark');
+            localStorage.setItem('dark', isDark ? '0' : '1');
+            applyDark(!isDark);
+        }
+
+        // Apply saved preference immediately
+        applyDark(localStorage.getItem('dark') === '1');
+
+        /* ── Toast Notification ───────────────────────────────── */
+        function showToast(msg, type = 'success', duration = 4000) {
+            const wrap = document.getElementById('toast-wrap');
+            const colors = {
+                success: { bg: '#dcfce7', border: '#86efac', text: '#15803d', icon: '✅' },
+                error:   { bg: '#fee2e2', border: '#fca5a5', text: '#b91c1c', icon: '❌' },
+                info:    { bg: '#dbeafe', border: '#93c5fd', text: '#1d4ed8', icon: 'ℹ️' },
+                warning: { bg: '#fef3c7', border: '#fcd34d', text: '#92400e', icon: '⚠️' },
+            };
+            const c = colors[type] || colors.info;
+            const t = document.createElement('div');
+            t.style.cssText = `
+                display:flex;align-items:center;gap:10px;
+                padding:13px 18px;border-radius:12px;
+                background:${c.bg};border:1.5px solid ${c.border};color:${c.text};
+                font-size:13.5px;font-weight:500;min-width:260px;max-width:360px;
+                box-shadow:0 4px 20px rgba(0,0,0,0.12);
+                animation:slideIn .3s ease;cursor:pointer;
+            `;
+            t.innerHTML = `<span style="font-size:16px;">${c.icon}</span><span style="flex:1;">${msg}</span><span style="opacity:.5;font-size:12px;">✕</span>`;
+            t.onclick = () => dismissToast(t);
+            wrap.appendChild(t);
+            setTimeout(() => dismissToast(t), duration);
+        }
+
+        function dismissToast(el) {
+            el.style.animation = 'slideOut .3s ease forwards';
+            setTimeout(() => el.remove(), 280);
+        }
+
+        // Convert server-side session alerts to animated toasts
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.alert').forEach(el => {
+                const isSuccess = el.classList.contains('alert-success');
+                const msg = el.textContent.trim().replace(/^[✅❌]\s*/, '');
+                showToast(msg, isSuccess ? 'success' : 'error');
+                el.remove(); // hide the original static alert
+            });
+
+            /* ── Counter Animation (dashboard) ─────────────────── */
+            document.querySelectorAll('[data-count]').forEach(el => {
+                const target = parseInt(el.dataset.count, 10);
+                if (isNaN(target) || target === 0) return;
+                let cur = 0;
+                const step = Math.max(1, Math.ceil(target / 50));
+                const timer = setInterval(() => {
+                    cur = Math.min(cur + step, target);
+                    el.textContent = cur.toLocaleString('id-ID');
+                    if (cur >= target) clearInterval(timer);
+                }, 25);
+            });
+
+            /* ── Overdue auto-detect (loans table) ──────────────── */
+            document.querySelectorAll('[data-due][data-status]').forEach(row => {
+                const due  = new Date(row.dataset.due);
+                const stat = row.dataset.status;
+                const today = new Date(); today.setHours(0,0,0,0);
+                if (stat === 'dipinjam' && due < today) {
+                    row.style.background = 'rgba(239,68,68,0.04)';
+                    const badge = row.querySelector('.badge');
+                    if (badge) {
+                        badge.textContent = '⚠️ Terlambat';
+                        badge.className = 'badge badge-terlambat';
+                    }
+                    const daysLate = Math.round((today - due) / 86400000);
+                    const dueCell = row.querySelector('[data-due-cell]');
+                    if (dueCell) {
+                        dueCell.innerHTML += `<br><small style="color:#ef4444;font-size:11px;font-weight:600;">${daysLate} hari terlambat</small>`;
+                    }
+                }
+            });
+        });
     </script>
+    <style>
+        @keyframes slideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0);    opacity: 1; }
+            to   { transform: translateX(120%); opacity: 0; }
+        }
+    </style>
 </body>
 </html>

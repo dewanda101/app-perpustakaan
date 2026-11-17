@@ -5,10 +5,30 @@
 <div class="ph">
     <div>
         <h1>Daftar Buku</h1>
-        <div class="sub">Total {{ $books->total() }} buku terdaftar</div>
+        <div class="sub">
+            @if($search)
+                Hasil pencarian "<strong>{{ $search }}</strong>" — {{ $books->total() }} buku ditemukan
+            @else
+                Total {{ $books->total() }} buku terdaftar
+            @endif
+        </div>
     </div>
     <a href="{{ route('books.create') }}" class="btn">➕ Tambah Buku</a>
 </div>
+
+{{-- Search Bar --}}
+<div class="card" style="padding:16px 20px;margin-bottom:4px;">
+    <form method="GET" action="{{ route('books.index') }}" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <input type="text" name="search" value="{{ $search ?? '' }}"
+               placeholder="🔍  Cari judul, penulis, atau ISBN..."
+               style="flex:1;min-width:220px;padding:9px 14px;font-size:14px;">
+        <button type="submit" class="btn" style="white-space:nowrap;">Cari</button>
+        @if($search)
+        <a href="{{ route('books.index') }}" class="btn btn-out" style="white-space:nowrap;">✕ Reset</a>
+        @endif
+    </form>
+</div>
+
 <div class="card">
     <div class="tbl-wrap">
         <table>
@@ -23,7 +43,14 @@
                 <td>{{ $book['penulis'] }}</td>
                 <td style="color:#64748b;">{{ $book['penerbit'] }}</td>
                 <td>{{ $book['tahun_terbit'] }}</td>
-                <td><span style="font-weight:600;color:{{ $book['stok']>0?'#15803d':'#b91c1c' }};">{{ $book['stok'] }}</span></td>
+                <td>
+                    <span style="font-weight:600;color:{{ $book['stok']>0?'#15803d':'#b91c1c' }};">
+                        {{ $book['stok'] }}
+                    </span>
+                    @if($book['stok'] == 0)
+                    <span class="badge badge-terlambat" style="font-size:10px;padding:2px 6px;margin-left:4px;">Habis</span>
+                    @endif
+                </td>
                 <td><span class="badge badge-aktif" style="font-size:11px;">{{ $book['category']['nama_kategori'] }}</span></td>
                 <td>
                     <div class="aksi-wrap">
@@ -37,7 +64,15 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:32px;">Belum ada data buku.</td></tr>
+            <tr>
+                <td colspan="8" style="text-align:center;color:#94a3b8;padding:40px;">
+                    @if($search)
+                        😕 Tidak ada buku dengan kata kunci "<strong>{{ $search }}</strong>"
+                    @else
+                        Belum ada data buku.
+                    @endif
+                </td>
+            </tr>
             @endforelse
             </tbody>
         </table>

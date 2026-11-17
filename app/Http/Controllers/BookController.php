@@ -9,11 +9,20 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('category')->paginate(10);
+        $search = $request->query('search');
 
-        return view('books.index', compact('books'));
+        $books = Book::with('category')
+            ->when($search, function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('penulis', 'like', "%{$search}%")
+                  ->orWhere('isbn', 'like', "%{$search}%");
+            })
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('books.index', compact('books', 'search'));
     }
 
     public function create()

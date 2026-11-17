@@ -17,7 +17,8 @@
             </thead>
             <tbody>
             @forelse($loans as $loan)
-            <tr>
+            {{-- data-due & data-status digunakan oleh JS overdue-detector --}}
+            <tr data-due="{{ $loan['tanggal_kembali'] }}" data-status="{{ $loan['status'] }}">
                 <td style="color:#94a3b8;font-size:12px;">{{ $loan['id'] }}</td>
                 <td style="font-weight:500;">{{ $loan['member']['nama'] }}</td>
                 <td style="color:#64748b;font-size:13px;">{{ $loan['user']['name'] }}</td>
@@ -27,7 +28,7 @@
                     @endforeach
                 </td>
                 <td>{{ $loan['tanggal_pinjam'] }}</td>
-                <td>{{ $loan['tanggal_kembali'] }}</td>
+                <td data-due-cell>{{ $loan['tanggal_kembali'] }}</td>
                 <td><span class="badge badge-{{ $loan['status'] }}">{{ ucfirst($loan['status']) }}</span></td>
                 <td>
                     <div class="aksi-wrap">
