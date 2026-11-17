@@ -27,7 +27,7 @@
         </div>
     </div>
     @if($overdue_count > 0)
-    <div class="stat-card" style="border-left: 3px solid #ef4444;">
+    <div class="stat-card" style="border-left:3px solid #ef4444;">
         <div class="stat-ic" style="background:rgba(239,68,68,0.1);color:#ef4444;">⚠️</div>
         <div>
             <div class="stat-val" data-count="{{ $overdue_count }}" style="color:#ef4444;">0</div>
@@ -46,21 +46,21 @@
             <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Tambah, edit, hapus data buku</div>
         </div>
     </a>
-    <a href="{{ route('members.index') }}" class="stat-card" style="text-decoration:none;" aria-label="Kelola data anggota perpustakaan">
+    <a href="{{ route('members.index') }}" class="stat-card" style="text-decoration:none;" aria-label="Kelola data anggota">
         <div class="stat-ic ic-grn">👤</div>
         <div>
             <div style="font-size:14px;font-weight:600;color:var(--text);">Kelola Anggota</div>
             <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Data mahasiswa peminjam</div>
         </div>
     </a>
-    <a href="{{ route('loans.create') }}" class="stat-card" style="text-decoration:none;" aria-label="Buat transaksi peminjaman buku baru">
+    <a href="{{ route('loans.create') }}" class="stat-card" style="text-decoration:none;" aria-label="Buat transaksi peminjaman baru">
         <div class="stat-ic ic-org">➕</div>
         <div>
             <div style="font-size:14px;font-weight:600;color:var(--text);">Transaksi Baru</div>
             <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">Catat peminjaman buku</div>
         </div>
     </a>
-    <a href="{{ route('loans.report') }}" class="stat-card" style="text-decoration:none;" aria-label="Lihat laporan seluruh peminjaman">
+    <a href="{{ route('loans.report') }}" class="stat-card" style="text-decoration:none;" aria-label="Lihat laporan peminjaman">
         <div class="stat-ic ic-pur">📊</div>
         <div>
             <div style="font-size:14px;font-weight:600;color:var(--text);">Laporan</div>
@@ -69,8 +69,8 @@
     </a>
 </div>
 
-{{-- Peminjaman Terbaru --}}
-@if(count($recent_loans) > 0)
+{{-- Peminjaman Terbaru (Collection of Eloquent Models — akses via ->) --}}
+@if($recent_loans->count() > 0)
 <div class="card" style="margin-top:24px;">
     <div class="card-hd">
         <h2>🕐 Peminjaman Terbaru</h2>
@@ -83,16 +83,16 @@
             </thead>
             <tbody>
             @foreach($recent_loans as $loan)
-            <tr data-due="{{ $loan['tanggal_kembali'] }}" data-status="{{ $loan['status'] }}">
-                <td style="font-weight:500;">{{ $loan['member']['nama'] }}</td>
+            <tr data-due="{{ $loan->tanggal_kembali }}" data-status="{{ $loan->status }}">
+                <td style="font-weight:500;">{{ $loan->member->nama }}</td>
                 <td style="max-width:200px;">
-                    @foreach($loan['loanItems'] as $item)
-                    <span style="display:inline-block;background:#f1f5f9;border-radius:4px;padding:2px 7px;font-size:11.5px;margin:1px;">{{ $item['book']['judul'] }}</span>
+                    @foreach($loan->loanItems as $item)
+                    <span style="display:inline-block;background:#f1f5f9;border-radius:4px;padding:2px 7px;font-size:11.5px;margin:1px;">{{ $item->book->judul }}</span>
                     @endforeach
                 </td>
-                <td style="font-size:13px;color:var(--text-muted);">{{ $loan['tanggal_pinjam'] }}</td>
-                <td data-due-cell style="font-size:13px;">{{ $loan['tanggal_kembali'] }}</td>
-                <td><span class="badge badge-{{ $loan['status'] }}">{{ ucfirst($loan['status']) }}</span></td>
+                <td style="font-size:13px;color:var(--text-muted);">{{ $loan->tanggal_pinjam }}</td>
+                <td data-due-cell style="font-size:13px;">{{ $loan->tanggal_kembali }}</td>
+                <td><span class="badge badge-{{ $loan->status }}">{{ ucfirst($loan->status) }}</span></td>
             </tr>
             @endforeach
             </tbody>

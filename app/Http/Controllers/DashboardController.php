@@ -20,12 +20,11 @@ class DashboardController extends Controller
             'peminjaman_aktif' => Loan::where('status', 'dipinjam')->count(),
         ];
 
-        // Data tambahan untuk dashboard
+        // Data tambahan untuk dashboard — gunakan Collection (bukan array) agar relasi tetap camelCase
         $recent_loans = Loan::with(['member', 'user', 'loanItems.book'])
             ->latest()
             ->take(5)
-            ->get()
-            ->toArray();
+            ->get();
 
         $overdue_count = Loan::where('status', 'dipinjam')
             ->whereDate('tanggal_kembali', '<', now()->toDateString())
