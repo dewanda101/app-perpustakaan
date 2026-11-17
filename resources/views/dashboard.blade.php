@@ -118,7 +118,7 @@
     {{-- Bar Chart: Peminjaman per Bulan --}}
     <div class="card">
         <div class="card-hd">
-            <h2>📈 Tren Peminjaman</h2>
+            <h2>📈 Grafik Peminjaman</h2>
             <span style="font-size:12px;color:var(--text-muted);font-weight:400;">6 bulan terakhir</span>
         </div>
         <div class="card-bd" style="position:relative;height:280px;">
