@@ -45,13 +45,14 @@
         /* ── Sidebar ───────────────────────────────────────────── */
         .sidebar {
             width: var(--sidebar-w);
-            min-height: 100vh;
+            height: 100vh;
             background: var(--sidebar-bg);
             display: flex;
             flex-direction: column;
             position: fixed;
             top: 0; left: 0;
             z-index: 100;
+            overflow: hidden;
             transition: transform .3s;
         }
 
@@ -116,6 +117,7 @@
         .sidebar-footer {
             padding: 16px;
             border-top: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
         }
         .user-card {
             display: flex;
@@ -143,17 +145,23 @@
             font-size: 11px; color: var(--sidebar-text); opacity: 0.7;
         }
         .btn-logout {
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            width: 100%; padding: 8px 12px;
-            background: rgba(239,68,68,0.12);
-            border: 1px solid rgba(239,68,68,0.25);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 10px 14px;
+            background: rgba(239,68,68,0.15);
+            border: 1.5px solid rgba(239,68,68,0.3);
             color: #fca5a5;
-            border-radius: 8px;
-            font-size: 13px; font-weight: 500;
+            border-radius: 10px;
+            font-size: 13.5px; font-weight: 600;
             cursor: pointer;
-            transition: background .15s;
+            margin-top: 10px;
+            transition: background .2s, border-color .2s, color .2s;
+            font-family: inherit;
         }
-        .btn-logout:hover { background: rgba(239,68,68,0.22); }
+        .btn-logout:hover {
+            background: rgba(239,68,68,0.3);
+            border-color: rgba(239,68,68,0.5);
+            color: #fff;
+        }
 
         /* ── Main layout ────────────────────────────────────────── */
         .page-wrapper {
