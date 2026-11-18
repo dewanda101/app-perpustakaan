@@ -1,164 +1,227 @@
 @extends('layouts.app')
-@section('title', 'Dashboard - Perpustakaan Digital Kampus')
+@section('title', 'Dashboard - Perpustakaan Digital Kampus PENS')
 @section('page_title', 'Dashboard')
 @section('content')
 
-{{-- ── Stats Cards ──────────────────────────────────────────── --}}
+{{-- ── Ringkasan Statistik ────────────────────────────────── --}}
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-ic ic-blue">📚</div>
+        <div class="stat-ic ic-blue" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                <path d="M6 6h10"/>
+                <path d="M6 10h10"/>
+            </svg>
+        </div>
         <div>
-            <div class="stat-val" data-count="{{ $stats['total_buku'] }}">0</div>
-            <div class="stat-lbl">Total Buku</div>
+            <div class="stat-val" data-count="{{ $stats['total_buku'] }}">{{ $stats['total_buku'] }}</div>
+            <div class="stat-lbl">Total Judul Buku</div>
         </div>
     </div>
+
     <div class="stat-card">
-        <div class="stat-ic ic-grn">👥</div>
+        <div class="stat-ic ic-grn" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </div>
         <div>
-            <div class="stat-val" data-count="{{ $stats['total_anggota'] }}">0</div>
-            <div class="stat-lbl">Total Anggota</div>
+            <div class="stat-val" data-count="{{ $stats['total_anggota'] }}">{{ $stats['total_anggota'] }}</div>
+            <div class="stat-lbl">Anggota Terdaftar</div>
         </div>
     </div>
+
     <div class="stat-card">
-        <div class="stat-ic ic-org">📋</div>
+        <div class="stat-ic ic-org" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                <path d="M9 14h6"/>
+                <path d="M9 18h6"/>
+                <path d="M9 10h6"/>
+            </svg>
+        </div>
         <div>
-            <div class="stat-val" data-count="{{ $stats['peminjaman_aktif'] }}">0</div>
+            <div class="stat-val" data-count="{{ $stats['peminjaman_aktif'] }}">{{ $stats['peminjaman_aktif'] }}</div>
             <div class="stat-lbl">Peminjaman Aktif</div>
         </div>
     </div>
+
     @if($overdue_count > 0)
-    <div class="stat-card" style="border-left:3px solid #ef4444;">
-        <div class="stat-ic" style="background:rgba(239,68,68,0.1);color:#ef4444;">⚠️</div>
+    <div class="stat-card" style="border-left:3px solid var(--danger);">
+        <div class="stat-ic ic-red" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+        </div>
         <div>
-            <div class="stat-val" data-count="{{ $overdue_count }}" style="color:#ef4444;">0</div>
-            <div class="stat-lbl" style="color:#ef4444;">Terlambat</div>
+            <div class="stat-val" data-count="{{ $overdue_count }}" style="color:var(--danger);">{{ $overdue_count }}</div>
+            <div class="stat-lbl" style="color:var(--danger);font-weight:600;">Jatuh Tempo</div>
         </div>
     </div>
     @endif
 </div>
 
-{{-- ── Quick Access ─────────────────────────────────────────── --}}
-<div style="margin-top:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+{{-- ── Aksi Cepat ─────────────────────────────────────────── --}}
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:20px;">
     <a href="{{ route('books.index') }}" class="stat-card" style="text-decoration:none;">
-        <div class="stat-ic ic-blue">📖</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--text);">Kelola Buku</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Tambah, edit, hapus data buku</div></div>
+        <div class="stat-ic ic-blue" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                <path d="M6 6h10"/>
+                <path d="M6 10h10"/>
+            </svg>
+        </div>
+        <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text);">Katalog Buku</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Kelola koleksi pustaka</div>
+        </div>
     </a>
     <a href="{{ route('members.index') }}" class="stat-card" style="text-decoration:none;">
-        <div class="stat-ic ic-grn">👤</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--text);">Kelola Anggota</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Data mahasiswa peminjam</div></div>
+        <div class="stat-ic ic-grn" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+            </svg>
+        </div>
+        <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text);">Data Anggota</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Data mahasiswa peminjam</div>
+        </div>
     </a>
     <a href="{{ route('loans.create') }}" class="stat-card" style="text-decoration:none;">
-        <div class="stat-ic ic-org">➕</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--text);">Transaksi Baru</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Catat peminjaman buku</div></div>
+        <div class="stat-ic ic-org" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+        </div>
+        <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text);">Catat Peminjaman</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Transaksi sirkulasi baru</div>
+        </div>
     </a>
     <a href="{{ route('loans.report') }}" class="stat-card" style="text-decoration:none;">
-        <div class="stat-ic ic-pur">📊</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--text);">Laporan</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Riwayat seluruh peminjaman</div></div>
+        <div class="stat-ic ic-blue" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
+            </svg>
+        </div>
+        <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text);">Laporan Sirkulasi</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Rekapitulasi riwayat transaksi</div>
+        </div>
     </a>
 </div>
 
-{{-- ── Charts Row ───────────────────────────────────────────── --}}
-<div style="display:grid;grid-template-columns:1fr 1.8fr;gap:18px;margin-top:22px;">
+{{-- ── Grafik dan Distribusi Status ───────────────────────── --}}
+<div style="display:grid;grid-template-columns:1fr 1.6fr;gap:18px;margin-bottom:20px;">
 
     {{-- Donut Chart: Status Distribusi --}}
-    <div class="card">
-        <div class="card-hd"><h2>📊 Status Peminjaman</h2></div>
-        <div class="card-bd" style="display:flex;flex-direction:column;align-items:center;gap:20px;">
+    <div class="card" style="margin-bottom:0;">
+        <div class="card-hd">
+            <h2>Distribusi Status Sirkulasi</h2>
+        </div>
+        <div class="card-bd" style="display:flex;flex-direction:column;align-items:center;gap:18px;">
             @if($total_loans > 0)
-            {{-- Donut wrapper --}}
-            <div style="position:relative;width:200px;height:200px;">
-                <canvas id="donutChart" width="200" height="200"></canvas>
+            <div style="position:relative;width:190px;height:190px;">
+                <canvas id="donutChart" width="190" height="190"></canvas>
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;">
-                    <div style="font-size:28px;font-weight:700;color:var(--text);">{{ $total_loans }}</div>
-                    <div style="font-size:11px;color:var(--text-muted);font-weight:500;">Total</div>
+                    <div style="font-size:24px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;">{{ $total_loans }}</div>
+                    <div style="font-size:11px;color:var(--text-muted);font-weight:500;">Total Transaksi</div>
                 </div>
             </div>
-            {{-- Legend --}}
-            <div style="width:100%;display:flex;flex-direction:column;gap:10px;">
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#dbeafe;border-radius:8px;">
+
+            {{-- Legend List --}}
+            <div style="width:100%;display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--primary-light);border-radius:4px;">
                     <div style="display:flex;align-items:center;gap:8px;">
-                        <div style="width:10px;height:10px;border-radius:50%;background:#3b82f6;"></div>
-                        <span style="font-size:13px;font-weight:500;color:#1e40af;">Dipinjam</span>
+                        <span style="width:8px;height:8px;border-radius:2px;background:#1d4ed8;"></span>
+                        <span style="font-size:13px;font-weight:500;color:var(--text);">Dipinjam</span>
                     </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <span style="font-size:14px;font-weight:700;color:#1e40af;">{{ $dipinjam }}</span>
-                        <span style="font-size:11px;color:#3b82f6;background:#bfdbfe;padding:2px 6px;border-radius:20px;">{{ $total_loans > 0 ? round($dipinjam/$total_loans*100) : 0 }}%</span>
-                    </div>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#dcfce7;border-radius:8px;">
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <div style="width:10px;height:10px;border-radius:50%;background:#22c55e;"></div>
-                        <span style="font-size:13px;font-weight:500;color:#15803d;">Dikembalikan</span>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <span style="font-size:14px;font-weight:700;color:#15803d;">{{ $dikembalikan }}</span>
-                        <span style="font-size:11px;color:#16a34a;background:#bbf7d0;padding:2px 6px;border-radius:20px;">{{ $total_loans > 0 ? round($dikembalikan/$total_loans*100) : 0 }}%</span>
+                    <div style="font-size:13px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;">
+                        {{ $dipinjam }} ({{ $total_loans > 0 ? round($dipinjam/$total_loans*100) : 0 }}%)
                     </div>
                 </div>
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#fee2e2;border-radius:8px;">
+
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--success-light);border-radius:4px;">
                     <div style="display:flex;align-items:center;gap:8px;">
-                        <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></div>
-                        <span style="font-size:13px;font-weight:500;color:#b91c1c;">Terlambat</span>
+                        <span style="width:8px;height:8px;border-radius:2px;background:#15803d;"></span>
+                        <span style="font-size:13px;font-weight:500;color:var(--text);">Dikembalikan</span>
                     </div>
+                    <div style="font-size:13px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;">
+                        {{ $dikembalikan }} ({{ $total_loans > 0 ? round($dikembalikan/$total_loans*100) : 0 }}%)
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--danger-light);border-radius:4px;">
                     <div style="display:flex;align-items:center;gap:8px;">
-                        <span style="font-size:14px;font-weight:700;color:#b91c1c;">{{ $terlambat }}</span>
-                        <span style="font-size:11px;color:#dc2626;background:#fecaca;padding:2px 6px;border-radius:20px;">{{ $total_loans > 0 ? round($terlambat/$total_loans*100) : 0 }}%</span>
+                        <span style="width:8px;height:8px;border-radius:2px;background:#b91c1c;"></span>
+                        <span style="font-size:13px;font-weight:500;color:var(--text);">Jatuh Tempo</span>
+                    </div>
+                    <div style="font-size:13px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;">
+                        {{ $terlambat }} ({{ $total_loans > 0 ? round($terlambat/$total_loans*100) : 0 }}%)
                     </div>
                 </div>
             </div>
             @else
-            <div style="text-align:center;color:var(--text-muted);padding:40px 0;">
-                <div style="font-size:40px;margin-bottom:10px;">📋</div>
-                <div style="font-size:14px;">Belum ada data peminjaman</div>
+            <div style="text-align:center;padding:36px 12px;color:var(--text-muted);">
+                <p style="font-size:13.5px;margin-bottom:12px;">Belum ada data sirkulasi peminjaman.</p>
+                <a href="{{ route('loans.create') }}" class="btn btn-sm">Catat Transaksi Pertama</a>
             </div>
             @endif
         </div>
     </div>
 
     {{-- Bar Chart: Peminjaman per Bulan --}}
-    <div class="card">
+    <div class="card" style="margin-bottom:0;">
         <div class="card-hd">
-            <h2>📈 Grafik Peminjaman</h2>
-            <span style="font-size:12px;color:var(--text-muted);font-weight:400;">6 bulan terakhir</span>
+            <h2>Grafik Frekuensi Peminjaman</h2>
+            <span style="font-size:12px;color:var(--text-muted);">6 bulan terakhir</span>
         </div>
-        <div class="card-bd" style="position:relative;height:280px;">
+        <div class="card-bd" style="position:relative;height:290px;">
             <canvas id="barChart"></canvas>
         </div>
     </div>
 
 </div>
 
-{{-- ── Circular Progress Indicators ───────────────────────────── --}}
+{{-- ── Persentase Sirkulasi ────────────────────────────────── --}}
 @if($total_loans > 0)
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px;">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
     @php
-        $items = [
-            ['label'=>'Dipinjam',     'value'=>$dipinjam,     'pct'=>round($dipinjam/$total_loans*100),     'color'=>'#3b82f6','bg'=>'#dbeafe','txt'=>'#1e40af'],
-            ['label'=>'Dikembalikan', 'value'=>$dikembalikan, 'pct'=>round($dikembalikan/$total_loans*100), 'color'=>'#22c55e','bg'=>'#dcfce7','txt'=>'#15803d'],
-            ['label'=>'Terlambat',    'value'=>$terlambat,    'pct'=>round($terlambat/$total_loans*100),    'color'=>'#ef4444','bg'=>'#fee2e2','txt'=>'#b91c1c'],
+        $progressItems = [
+            ['label'=>'Sedang Dipinjam', 'value'=>$dipinjam,     'pct'=>round($dipinjam/$total_loans*100),     'color'=>'#1d4ed8','bg'=>'#e2e8f0'],
+            ['label'=>'Selesai Kembali', 'value'=>$dikembalikan, 'pct'=>round($dikembalikan/$total_loans*100), 'color'=>'#15803d','bg'=>'#e2e8f0'],
+            ['label'=>'Jatuh Tempo',     'value'=>$terlambat,    'pct'=>round($terlambat/$total_loans*100),    'color'=>'#b91c1c','bg'=>'#e2e8f0'],
         ];
     @endphp
-    @foreach($items as $item)
-    <div class="card" style="text-align:center;">
-        <div class="card-bd" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px 16px;">
-            {{-- SVG Ring --}}
-            <div style="position:relative;width:110px;height:110px;">
-                <svg width="110" height="110" viewBox="0 0 110 110" style="transform:rotate(-90deg)">
-                    <circle cx="55" cy="55" r="45" fill="none" stroke="{{ $item['bg'] }}" stroke-width="10"/>
-                    <circle cx="55" cy="55" r="45" fill="none"
-                        stroke="{{ $item['color'] }}" stroke-width="10"
-                        stroke-dasharray="{{ round(2 * 3.14159 * 45) }}"
-                        stroke-dashoffset="{{ round(2 * 3.14159 * 45 * (1 - $item['pct']/100)) }}"
-                        stroke-linecap="round"
-                        style="transition: stroke-dashoffset 1.2s ease;"/>
+    @foreach($progressItems as $item)
+    <div class="card" style="text-align:center;margin-bottom:0;">
+        <div class="card-bd" style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 14px;">
+            <div style="position:relative;width:96px;height:96px;">
+                <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg)" aria-hidden="true">
+                    <circle cx="48" cy="48" r="40" fill="none" stroke="{{ $item['bg'] }}" stroke-width="8"/>
+                    <circle cx="48" cy="48" r="40" fill="none"
+                        stroke="{{ $item['color'] }}" stroke-width="8"
+                        stroke-dasharray="{{ round(2 * 3.14159 * 40) }}"
+                        stroke-dashoffset="{{ round(2 * 3.14159 * 40 * (1 - $item['pct']/100)) }}"
+                        stroke-linecap="round"/>
                 </svg>
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-                    <div style="font-size:20px;font-weight:700;color:{{ $item['txt'] }};">{{ $item['pct'] }}%</div>
+                    <div style="font-size:18px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;">{{ $item['pct'] }}%</div>
                 </div>
             </div>
             <div>
-                <div style="font-size:22px;font-weight:700;color:{{ $item['txt'] }};">{{ $item['value'] }}</div>
-                <div style="font-size:13px;color:var(--text-muted);margin-top:2px;">{{ $item['label'] }}</div>
+                <div style="font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;">{{ $item['value'] }}</div>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">{{ $item['label'] }}</div>
             </div>
         </div>
     </div>
@@ -168,27 +231,35 @@
 
 {{-- ── Peminjaman Terbaru ───────────────────────────────────── --}}
 @if($recent_loans->count() > 0)
-<div class="card" style="margin-top:18px;">
+<div class="card">
     <div class="card-hd">
-        <h2>🕐 Peminjaman Terbaru</h2>
-        <a href="{{ route('loans.index') }}" class="btn btn-sm btn-out">Lihat Semua →</a>
+        <h2>Transaksi Peminjaman Terbaru</h2>
+        <a href="{{ route('loans.index') }}" class="btn btn-sm btn-out">Semua Transaksi</a>
     </div>
     <div class="tbl-wrap">
         <table>
             <thead>
-                <tr><th>Anggota</th><th>Buku</th><th>Tgl Pinjam</th><th>Tgl Kembali</th><th>Status</th></tr>
+                <tr>
+                    <th>Peminjam</th>
+                    <th>Judul Buku</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Batas Kembali</th>
+                    <th>Status</th>
+                </tr>
             </thead>
             <tbody>
             @foreach($recent_loans as $loan)
             <tr data-due="{{ $loan->tanggal_kembali }}" data-status="{{ $loan->status }}">
                 <td style="font-weight:500;">{{ $loan->member->nama }}</td>
-                <td style="max-width:200px;">
+                <td style="max-width:240px;">
                     @foreach($loan->loanItems as $item)
-                    <span style="display:inline-block;background:#f1f5f9;border-radius:4px;padding:2px 7px;font-size:11.5px;margin:1px;">{{ $item->book->judul }}</span>
+                    <span style="display:inline-block;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:12px;margin:1px;">
+                        {{ $item->book->judul }}
+                    </span>
                     @endforeach
                 </td>
-                <td style="font-size:13px;color:var(--text-muted);">{{ $loan->tanggal_pinjam }}</td>
-                <td data-due-cell style="font-size:13px;">{{ $loan->tanggal_kembali }}</td>
+                <td style="font-size:13px;color:var(--text-muted);font-variant-numeric:tabular-nums;">{{ $loan->tanggal_pinjam }}</td>
+                <td data-due-cell style="font-size:13px;font-variant-numeric:tabular-nums;">{{ $loan->tanggal_kembali }}</td>
                 <td><span class="badge badge-{{ $loan->status }}">{{ ucfirst($loan->status) }}</span></td>
             </tr>
             @endforeach
@@ -198,31 +269,28 @@
 </div>
 @endif
 
-{{-- ── Chart.js CDN + init ──────────────────────────────────── --}}
+{{-- ── Chart.js Script ─────────────────────────────────────── --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-    // ── Helpers for dark mode aware colors ──
     const isDark = () => document.getElementById('html-root').classList.contains('dark');
-    const textColor   = () => isDark() ? '#94a3b8' : '#64748b';
-    const gridColor   = () => isDark() ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-    const surfaceColor= () => isDark() ? '#1e293b' : '#ffffff';
+    const textColor = () => isDark() ? '#94a3b8' : '#475569';
+    const gridColor = () => isDark() ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+    const surfaceColor = () => isDark() ? '#131d31' : '#ffffff';
 
-    // ── Donut Chart ──────────────────────────────────────────
     @if($total_loans > 0)
     const donutCtx = document.getElementById('donutChart');
     if (donutCtx) {
         new Chart(donutCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Dipinjam', 'Dikembalikan', 'Terlambat'],
+                labels: ['Dipinjam', 'Dikembalikan', 'Jatuh Tempo'],
                 datasets: [{
                     data: [{{ $dipinjam }}, {{ $dikembalikan }}, {{ $terlambat }}],
-                    backgroundColor: ['#3b82f6', '#22c55e', '#ef4444'],
+                    backgroundColor: ['#1d4ed8', '#15803d', '#b91c1c'],
                     borderColor: surfaceColor(),
-                    borderWidth: 3,
-                    hoverOffset: 6,
+                    borderWidth: 2,
+                    hoverOffset: 4,
                 }]
             },
             options: {
@@ -236,13 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 },
-                animation: { animateRotate: true, duration: 1000 }
+                animation: { duration: 600 }
             }
         });
     }
     @endif
 
-    // ── Bar Chart ────────────────────────────────────────────
     const barCtx = document.getElementById('barChart');
     if (barCtx) {
         const labels = @json(array_values($bulan_labels));
@@ -253,12 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
             data: {
                 labels,
                 datasets: [{
-                    label: 'Peminjaman',
+                    label: 'Transaksi',
                     data,
-                    backgroundColor: 'rgba(79,70,229,0.75)',
-                    borderColor: '#4f46e5',
-                    borderWidth: 2,
-                    borderRadius: 8,
+                    backgroundColor: '#1d4ed8',
+                    borderRadius: 4,
                     borderSkipped: false,
                 }]
             },
@@ -286,21 +351,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: '#1e1b4b',
-                        titleColor: '#c7d2fe',
+                        backgroundColor: '#0f294a',
+                        titleColor: '#e2e8f0',
                         bodyColor: '#fff',
-                        padding: 12,
-                        cornerRadius: 10,
+                        padding: 10,
+                        cornerRadius: 6,
                         callbacks: {
-                            label: ctx => ` ${ctx.raw} peminjaman`
+                            label: ctx => ` ${ctx.raw} transaksi peminjaman`
                         }
                     }
                 },
-                animation: { duration: 900, easing: 'easeOutQuart' }
+                animation: { duration: 500 }
             }
         });
     }
-
 });
 </script>
 

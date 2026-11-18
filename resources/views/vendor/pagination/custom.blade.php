@@ -1,34 +1,34 @@
 @if ($paginator->hasPages())
-<nav style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+<nav style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;" aria-label="Navigasi Halaman">
     @if ($paginator->onFirstPage())
-        <span style="display:inline-flex;align-items:center;padding:6px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;color:#94a3b8;cursor:default;">← Prev</span>
+        <span style="display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12.5px;color:var(--text-light);cursor:default;">Sebelumnya</span>
     @else
-        <a href="{{ $paginator->previousPageUrl() }}" style="display:inline-flex;align-items:center;padding:6px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;color:#4f46e5;text-decoration:none;transition:all .15s;">← Prev</a>
+        <a href="{{ $paginator->previousPageUrl() }}" style="display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12.5px;color:var(--text);text-decoration:none;transition:background .15s ease;">Sebelumnya</a>
     @endif
 
     @foreach ($elements as $element)
         @if (is_string($element))
-            <span style="padding:6px 4px;color:#94a3b8;font-size:13px;">{{ $element }}</span>
+            <span style="padding:5px 4px;color:var(--text-light);font-size:12.5px;">{{ $element }}</span>
         @endif
         @if (is_array($element))
             @foreach ($element as $page => $url)
                 @if ($page == $paginator->currentPage())
-                    <span style="display:inline-flex;align-items:center;padding:6px 11px;background:#4f46e5;border:1.5px solid #4f46e5;border-radius:7px;font-size:13px;font-weight:600;color:#fff;">{{ $page }}</span>
+                    <span style="display:inline-flex;align-items:center;padding:5px 10px;background:var(--primary);border:1px solid var(--primary);border-radius:var(--radius);font-size:12.5px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;">{{ $page }}</span>
                 @else
-                    <a href="{{ $url }}" style="display:inline-flex;align-items:center;padding:6px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;color:#0f172a;text-decoration:none;transition:all .15s;">{{ $page }}</a>
+                    <a href="{{ $url }}" style="display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12.5px;color:var(--text);text-decoration:none;transition:background .15s ease;font-variant-numeric:tabular-nums;">{{ $page }}</a>
                 @endif
             @endforeach
         @endif
     @endforeach
 
     @if ($paginator->hasMorePages())
-        <a href="{{ $paginator->nextPageUrl() }}" style="display:inline-flex;align-items:center;padding:6px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;color:#4f46e5;text-decoration:none;transition:all .15s;">Next →</a>
+        <a href="{{ $paginator->nextPageUrl() }}" style="display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12.5px;color:var(--text);text-decoration:none;transition:background .15s ease;">Berikutnya</a>
     @else
-        <span style="display:inline-flex;align-items:center;padding:6px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:13px;color:#94a3b8;cursor:default;">Next →</span>
+        <span style="display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:12.5px;color:var(--text-light);cursor:default;">Berikutnya</span>
     @endif
 
-    <span style="margin-left:6px;font-size:12px;color:#94a3b8;">
-        {{ $paginator->firstItem() }}-{{ $paginator->lastItem() }} dari {{ $paginator->total() }}
+    <span style="margin-left:8px;font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums;">
+        {{ $paginator->firstItem() }}&ndash;{{ $paginator->lastItem() }} dari {{ $paginator->total() }}
     </span>
 </nav>
 @endif

@@ -4,350 +4,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login ke Sistem Perpustakaan Digital Kampus PENS">
-    <title>Login - Perpustakaan Digital Kampus</title>
+    <meta name="description" content="Masuk ke Sistem Perpustakaan Digital Kampus PENS">
+    <title>Masuk - Perpustakaan Digital Kampus PENS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #3730a3;
-            --accent: #06b6d4;
-            --sidebar-bg: #1e1b4b;
+            --primary: #1d4ed8;
+            --primary-hover: #1e40af;
+            --brand-navy: #0f294a;
+            --border: #e2e8f0;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --radius: 6px;
         }
 
-        /* ── Accessibility ── */
         :focus-visible {
-            outline: 3px solid #818cf8;
-            outline-offset: 3px;
-            border-radius: 6px;
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+            border-radius: 4px;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
-            background: #0f0e2e;
+            background: #f8fafc;
+            color: var(--text);
+            line-height: 1.5;
         }
 
-        /* ══ LEFT PANEL (Brand) ══════════════════════════════════ */
-        .left-panel {
-            width: 420px;
+        /* ── Left Panel (Institutional Identity) ── */
+        .brand-panel {
+            width: 440px;
             flex-shrink: 0;
-            background: linear-gradient(160deg, #1e1b4b 0%, #2d2a7a 50%, #1a1854 100%);
+            background: var(--brand-navy);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 48px 44px;
-            position: relative;
-            overflow: hidden;
+            padding: 48px 40px;
+            color: #ffffff;
         }
 
-        /* Decorative circles */
-        .left-panel::before {
-            content: '';
-            position: absolute;
-            width: 350px; height: 350px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(79,70,229,.35), transparent 70%);
-            top: -80px; right: -80px;
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 36px;
         }
-        .left-panel::after {
-            content: '';
-            position: absolute;
-            width: 300px; height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(6,182,212,.2), transparent 70%);
-            bottom: -60px; left: -60px;
+        .brand-icon {
+            width: 36px; height: 36px;
+            background: var(--primary);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            color: #ffffff;
+            flex-shrink: 0;
         }
 
-        .brand-logo {
-            font-size: 36px;
-            margin-bottom: 16px;
-            display: block;
-        }
         .brand-title {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 700;
-            color: #fff;
-            line-height: 1.3;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            color: #ffffff;
             margin-bottom: 10px;
         }
-        .brand-subtitle {
-            font-size: 14px;
-            color: rgba(199,210,254,0.8);
+        .brand-desc {
+            font-size: 13.5px;
+            color: #cbd5e1;
             line-height: 1.6;
         }
 
-        .brand-features {
+        .brand-list {
             list-style: none;
-            margin-top: 32px;
-        }
-        .brand-features li {
+            margin-top: 36px;
             display: flex;
-            align-items: center;
-            gap: 10px;
-            color: rgba(199,210,254,0.85);
-            font-size: 13.5px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-direction: column;
+            gap: 14px;
         }
-        .brand-features li:last-child { border-bottom: none; }
-        .feat-icon {
-            width: 32px; height: 32px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 8px;
+        .brand-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 13.5px;
+            color: #e2e8f0;
+        }
+        .list-icon {
+            width: 22px; height: 22px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center;
-            font-size: 15px;
+            color: #93c5fd;
             flex-shrink: 0;
+            margin-top: 1px;
         }
 
         .brand-footer {
             font-size: 12px;
-            color: rgba(199,210,254,0.45);
+            color: #94a3b8;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
         }
 
-        /* ══ RIGHT PANEL (Form) ══════════════════════════════════ */
-        .right-panel {
+        /* ── Right Panel (Form) ── */
+        .form-panel {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8fafc;
             padding: 40px 24px;
         }
 
-        .login-box {
+        .form-box {
             width: 100%;
-            max-width: 420px;
-            animation: fadeUp .5s cubic-bezier(.16,1,.3,1) both;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(28px); }
-            to   { opacity: 1; transform: translateY(0); }
+            max-width: 380px;
         }
 
-        .login-heading {
-            margin-bottom: 32px;
+        .form-heading {
+            margin-bottom: 28px;
         }
-        .login-heading h1 {
-            font-size: 26px;
+        .form-heading h1 {
+            font-size: 22px;
             font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 6px;
+            color: var(--text);
+            letter-spacing: -0.015em;
         }
-        .login-heading p {
-            font-size: 14px;
-            color: #64748b;
+        .form-heading p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
         }
 
-        /* Form elements */
-        .form-group {
+        .alert-box {
+            padding: 10px 14px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            font-weight: 500;
             margin-bottom: 20px;
         }
+        .alert-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+        .alert-success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        .form-grp {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
         label {
-            display: block;
-            font-size: 13.5px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
         }
-        .input-wrap {
+
+        .input-container {
             position: relative;
+            display: flex;
+            align-items: center;
         }
-        .input-icon {
-            position: absolute;
-            left: 14px; top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            pointer-events: none;
-        }
-        input[type="email"],
-        input[type="password"],
-        input[type="text"] {
+        .input-container input {
             width: 100%;
-            padding: 11px 42px 11px 42px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 9px 12px 9px 36px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 13.5px;
+            color: var(--text);
+            background: #ffffff;
             font-family: inherit;
-            color: #0f172a;
-            background: #fff;
-            transition: border-color .2s, box-shadow .2s;
+            transition: border-color .15s ease;
+        }
+        .input-container input:focus {
+            border-color: var(--primary);
             outline: none;
         }
-        input:focus {
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79,70,229,.12);
-        }
-        input.has-error {
+        .input-container input.has-error {
             border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239,68,68,.1);
         }
-        .toggle-eye {
+        .field-icon {
             position: absolute;
-            right: 12px; top: 50%;
-            transform: translateY(-50%);
-            background: none; border: none; cursor: pointer;
-            font-size: 16px; padding: 4px; border-radius: 4px;
+            left: 11px;
             color: #94a3b8;
-            transition: color .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
         }
-        .toggle-eye:hover { color: #4f46e5; }
+        .toggle-pwd {
+            position: absolute;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-pwd:hover { color: var(--text); }
 
         .field-error {
-            margin-top: 5px;
-            font-size: 12.5px;
-            color: #ef4444;
-            display: flex; align-items: center; gap: 5px;
+            font-size: 12px;
+            color: #b91c1c;
+            margin-top: 3px;
         }
-        .field-error::before { content: '⚠'; }
 
-        /* Remember + Submit */
         .remember-row {
             display: flex;
             align-items: center;
-            gap: 9px;
-            margin-bottom: 24px;
+            gap: 8px;
+            margin-bottom: 22px;
         }
         .remember-row input[type="checkbox"] {
-            width: 16px; height: 16px;
-            padding: 0;
-            accent-color: #4f46e5;
+            width: 15px; height: 15px;
+            accent-color: var(--primary);
             cursor: pointer;
-            border-radius: 4px;
         }
         .remember-row label {
-            margin: 0;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 400;
-            color: #64748b;
+            color: var(--text-muted);
             cursor: pointer;
         }
 
-        .btn-login {
+        .btn-submit {
             width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4f46e5, #4338ca);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
+            padding: 10px 16px;
+            background: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius);
+            color: #ffffff;
+            font-size: 14px;
             font-weight: 600;
-            font-family: inherit;
             cursor: pointer;
-            transition: all .2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: 0 4px 14px rgba(79,70,229,.35);
+            font-family: inherit;
+            transition: background .15s ease, border-color .15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
         }
-        .btn-login:hover {
-            background: linear-gradient(135deg, #4338ca, #3730a3);
-            box-shadow: 0 6px 20px rgba(79,70,229,.45);
-            transform: translateY(-1px);
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
         }
-        .btn-login:active { transform: translateY(0); }
-        .btn-login:disabled { opacity: .7; cursor: not-allowed; transform: none; }
-
-        /* Alert */
-        .alert-box {
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 13.5px;
-            margin-bottom: 20px;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .alert-success-box {
-            background: #f0fdf4;
-            border: 1.5px solid #bbf7d0;
-            color: #15803d;
-        }
-        .alert-error-box {
-            background: #fef2f2;
-            border: 1.5px solid #fecaca;
-            color: #b91c1c;
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
-        /* Login footer */
-        .login-footer {
-            text-align: center;
+        .form-footer {
             margin-top: 28px;
             font-size: 12px;
             color: #94a3b8;
+            text-align: center;
         }
 
-        /* Responsive — stack on mobile */
-        @media (max-width: 768px) {
-            .left-panel { display: none; }
-            .right-panel { background: #fff; }
+        @media (max-width: 820px) {
+            body { flex-direction: column; }
+            .brand-panel { width: 100%; padding: 28px 20px; }
+            .brand-list { display: none; }
+            .brand-footer { display: none; }
+            .form-panel { padding: 32px 16px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- ══ LEFT PANEL ══ -->
-    <aside class="left-panel" aria-hidden="true">
+    <!-- ── Left Panel ── -->
+    <aside class="brand-panel" aria-label="Tentang Perpustakaan PENS">
         <div>
-            <span class="brand-logo">📚</span>
-            <div class="brand-title">Perpustakaan<br>Digital Kampus</div>
-            <div class="brand-subtitle">Sistem manajemen perpustakaan modern<br>untuk Politeknik Elektronika Negeri Surabaya</div>
+            <div class="brand-header">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                        <path d="M6 6h10"/>
+                        <path d="M6 10h10"/>
+                    </svg>
+                </div>
+                <div>
+                    <div style="font-size:15px;font-weight:700;">Perpustakaan Digital</div>
+                    <div style="font-size:12px;color:#94a3b8;">Kampus PENS Surabaya</div>
+                </div>
+            </div>
 
-            <ul class="brand-features">
+            <div class="brand-title">Layanan Katalog & Sirkulasi Pustaka</div>
+            <p class="brand-desc">
+                Sistem pengelolaan sirkulasi terpadu untuk pustakawan, dosen, dan mahasiswa Politeknik Elektronika Negeri Surabaya.
+            </p>
+
+            <ul class="brand-list">
                 <li>
-                    <span class="feat-icon">📖</span>
-                    Manajemen koleksi buku lengkap
+                    <div class="list-icon" aria-hidden="true">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <span>Pencarian dan peminjaman katalog koleksi buku akademik</span>
                 </li>
                 <li>
-                    <span class="feat-icon">👥</span>
-                    Data anggota & peminjam terintegrasi
+                    <div class="list-icon" aria-hidden="true">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <span>Pemantauan jatuh tempo dan riwayat sirkulasi peminjaman</span>
                 </li>
                 <li>
-                    <span class="feat-icon">📋</span>
-                    Transaksi peminjaman real-time
-                </li>
-                <li>
-                    <span class="feat-icon">📊</span>
-                    Laporan & statistik komprehensif
+                    <div class="list-icon" aria-hidden="true">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <span>Laporan rekapitulasi data perpustakaan terstandar</span>
                 </li>
             </ul>
         </div>
 
         <div class="brand-footer">
-            &copy; {{ date('Y') }} PENS &mdash; Sistem Perpustakaan Digital
+            &copy; {{ date('Y') }} Politeknik Elektronika Negeri Surabaya
         </div>
     </aside>
 
-    <!-- ══ RIGHT PANEL (Form) ══ -->
-    <main class="right-panel" role="main">
-        <div class="login-box">
-
-            <div class="login-heading">
-                <h1>Selamat Datang 👋</h1>
-                <p>Masuk ke akun Anda untuk melanjutkan</p>
+    <!-- ── Right Panel ── -->
+    <main class="form-panel" role="main">
+        <div class="form-box">
+            <div class="form-heading">
+                <h1>Masuk ke Sistem</h1>
+                <p>Silakan masukkan kredensial akun petugas Anda</p>
             </div>
 
-            {{-- Alert dari session --}}
             @if (session('success'))
-                <div class="alert-box alert-success-box" role="alert">
-                    <span>✅</span> {{ session('success') }}
+                <div class="alert-box alert-success" role="alert">
+                    {{ session('success') }}
                 </div>
             @endif
+
             @if ($errors->any())
-                <div class="alert-box alert-error-box" role="alert">
-                    <span>❌</span> Email atau password salah. Periksa kembali.
+                <div class="alert-box alert-error" role="alert">
+                    Alamat email atau kata sandi yang Anda masukkan salah.
                 </div>
             @endif
 
             <form action="{{ route('login') }}" method="POST" id="login-form" novalidate>
                 @csrf
 
-                {{-- Email --}}
-                <div class="form-group">
-                    <label for="email">Alamat Email</label>
-                    <div class="input-wrap">
-                        <span class="input-icon" aria-hidden="true">✉️</span>
+                <div class="form-grp">
+                    <label for="email">Alamat Email Institusi</label>
+                    <div class="input-container">
+                        <span class="field-icon" aria-hidden="true">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </span>
                         <input
                             type="email"
                             name="email"
@@ -357,74 +377,81 @@
                             placeholder="nama@pens.ac.id"
                             autofocus
                             autocomplete="email"
-                            aria-describedby="email-error"
-                            aria-required="true"
+                            required
                         >
                     </div>
                     @error('email')
-                        <div class="field-error" id="email-error" role="alert">{{ $message }}</div>
+                        <div class="field-error">{{ $message }}</div>
                     @enderror
                 </div>
 
-                {{-- Password --}}
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-wrap">
-                        <span class="input-icon" aria-hidden="true">🔒</span>
+                <div class="form-grp">
+                    <label for="password">Kata Sandi</label>
+                    <div class="input-container">
+                        <span class="field-icon" aria-hidden="true">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </span>
                         <input
                             type="password"
                             name="password"
                             id="password"
                             class="@error('password') has-error @enderror"
-                            placeholder="Masukkan password"
+                            placeholder="Masukkan kata sandi"
                             autocomplete="current-password"
-                            aria-required="true"
+                            required
                         >
-                        <button type="button" class="toggle-eye" id="toggle-pass"
-                                aria-label="Tampilkan password" aria-pressed="false">
-                            👁
+                        <button type="button" class="toggle-pwd" id="toggle-pass" aria-label="Tampilkan kata sandi" aria-pressed="false">
+                            <svg id="eye-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
                         </button>
                     </div>
                     @error('password')
-                        <div class="field-error" role="alert">{{ $message }}</div>
+                        <div class="field-error">{{ $message }}</div>
                     @enderror
                 </div>
 
-                {{-- Remember me --}}
                 <div class="remember-row">
                     <input type="checkbox" name="remember" id="remember">
                     <label for="remember">Ingat saya di perangkat ini</label>
                 </div>
 
-                <button type="submit" class="btn-login" id="btn-login">
-                    <span id="btn-text">🚀 Masuk ke Sistem</span>
+                <button type="submit" class="btn-submit" id="btn-login">
+                    <span id="btn-text">Masuk ke Sistem</span>
                 </button>
             </form>
 
-            <div class="login-footer">
-                &copy; {{ date('Y') }} Sistem Perpustakaan Digital &mdash; PENS
+            <div class="form-footer">
+                Sistem Informasi Perpustakaan Kampus PENS
             </div>
         </div>
     </main>
 
     <script>
-        // Toggle show/hide password
         const toggleBtn = document.getElementById('toggle-pass');
         const passInput = document.getElementById('password');
+        const eyeIcon   = document.getElementById('eye-icon');
+
         toggleBtn.addEventListener('click', () => {
             const isHidden = passInput.type === 'password';
             passInput.type = isHidden ? 'text' : 'password';
-            toggleBtn.textContent = isHidden ? '🙈' : '👁';
             toggleBtn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
-            toggleBtn.setAttribute('aria-label', isHidden ? 'Sembunyikan password' : 'Tampilkan password');
+            toggleBtn.setAttribute('aria-label', isHidden ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi');
+            eyeIcon.innerHTML = isHidden
+                ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+                : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
         });
 
-        // Loading state on submit
         const form   = document.getElementById('login-form');
         const btn    = document.getElementById('btn-login');
         const btnTxt = document.getElementById('btn-text');
+
         form.addEventListener('submit', () => {
-            btnTxt.textContent = '⏳ Memproses...';
+            btnTxt.textContent = 'Memverifikasi...';
             btn.disabled = true;
         });
     </script>
