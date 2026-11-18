@@ -97,6 +97,84 @@
         .dark .chk-list { background: #131d31; border-color: #1e293b; }
         .dark .info-blk { background: #1a2742; border-color: #1e293b; }
 
+        /* ── Accessibility Feature Classes (WCAG AAA Compliance) ── */
+        html[data-text-scale="115"] { font-size: 115%; }
+        html[data-text-scale="130"] { font-size: 130%; }
+
+        .high-contrast {
+            --bg: #ffffff !important;
+            --surface: #ffffff !important;
+            --border: #000000 !important;
+            --text: #000000 !important;
+            --text-muted: #111827 !important;
+            --text-light: #374151 !important;
+            --primary: #0000cc !important;
+            --primary-hover: #000088 !important;
+            --primary-light: #e0e7ff !important;
+            --success: #006600 !important;
+            --danger: #cc0000 !important;
+        }
+        .high-contrast.dark {
+            --bg: #000000 !important;
+            --surface: #0a0a0a !important;
+            --border: #ffffff !important;
+            --text: #ffffff !important;
+            --text-muted: #e2e8f0 !important;
+            --text-light: #cbd5e1 !important;
+            --primary: #60a5fa !important;
+            --primary-hover: #93c5fd !important;
+            --primary-light: #1e3a8a !important;
+            --success: #4ade80 !important;
+            --danger: #f87171 !important;
+        }
+        .high-contrast table, .high-contrast th, .high-contrast td,
+        .high-contrast .card, .high-contrast .stat-card, .high-contrast input,
+        .high-contrast select, .high-contrast textarea, .high-contrast .btn-out {
+            border-width: 2px !important;
+        }
+
+        .underline-links a {
+            text-decoration: underline !important;
+            text-underline-offset: 3px !important;
+        }
+
+        .enhanced-readability body,
+        .enhanced-readability p,
+        .enhanced-readability span,
+        .enhanced-readability td,
+        .enhanced-readability th,
+        .enhanced-readability div {
+            letter-spacing: 0.04em !important;
+            line-height: 1.75 !important;
+            word-spacing: 0.06em !important;
+        }
+
+        .high-focus :focus-visible {
+            outline: 3px solid #d97706 !important;
+            outline-offset: 3px !important;
+        }
+
+        .reduced-motion *,
+        .reduced-motion *::before,
+        .reduced-motion *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+            scroll-behavior: auto !important;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg);
@@ -603,6 +681,182 @@
             transition: opacity .25s ease;
         }
 
+        /* ── Accessibility Modal Styles ─────────────────────────── */
+        .a11y-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(2px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .a11y-modal-backdrop.open { display: flex; }
+        .a11y-modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: a11yFadeIn .2s ease;
+        }
+        @keyframes a11yFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .a11y-modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .a11y-close-btn {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .a11y-close-btn:hover { color: var(--text); background: var(--bg); }
+        .a11y-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .a11y-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .a11y-label {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+        .a11y-scale-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .a11y-scale-btn {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            color: var(--text);
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            font-family: inherit;
+            transition: all .15s ease;
+        }
+        .a11y-scale-btn:hover { background: var(--bg); border-color: var(--text-muted); }
+        .a11y-scale-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .a11y-toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+        }
+        .a11y-toggle-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .a11y-toggle-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        /* Switch toggle control */
+        .a11y-switch {
+            position: relative;
+            display: inline-block;
+            width: 38px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+        .a11y-switch input { opacity: 0; width: 0; height: 0; }
+        .a11y-slider {
+            position: absolute; cursor: pointer; inset: 0;
+            background-color: var(--border);
+            transition: .2s ease;
+            border-radius: 22px;
+        }
+        .a11y-slider::before {
+            position: absolute; content: "";
+            height: 16px; width: 16px; left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .2s ease;
+            border-radius: 50%;
+        }
+        .a11y-switch input:checked + .a11y-slider { background-color: var(--primary); }
+        .a11y-switch input:checked + .a11y-slider::before { transform: translateX(16px); }
+
+        /* Keyboard keys grid */
+        .a11y-keys-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 12px;
+        }
+        .a11y-key-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text);
+        }
+        kbd {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            font-family: inherit;
+        }
+
+        .a11y-modal-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface);
+        }
+
         /* ── Footer ─────────────────────────────────────────────── */
         footer {
             padding: 18px 28px;
@@ -623,11 +877,15 @@
             .topbar { padding: 0 16px; }
             main { padding: 16px; }
             .form-grid { grid-template-columns: 1fr; }
+            .a11y-keys-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Lewati ke konten utama</a>
+
+    <!-- Accessibility Screen Reader Announcer -->
+    <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <!-- Mobile Drawer Overlay -->
     <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()" aria-hidden="true"></div>
@@ -771,13 +1029,31 @@
                 </button>
                 <div class="topbar-title" role="heading" aria-level="1">@yield('page_title', 'Dashboard')</div>
             </div>
-            <div style="display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
                 @auth
                 <span style="font-size:12.5px;color:var(--text-muted);font-variant-numeric:tabular-nums;" aria-label="Tanggal hari ini">{{ date('d M Y') }}</span>
                 @endauth
+
+                <!-- Accessibility Control Trigger -->
+                <button onclick="openA11yModal()" id="a11y-trigger"
+                    title="Menu Aksesibilitas (Alt + K)"
+                    aria-label="Buka menu pengaturan aksesibilitas"
+                    aria-haspopup="dialog"
+                    aria-expanded="false"
+                    style="width:34px;height:34px;border-radius:6px;border:1px solid var(--border);
+                           background:var(--surface);cursor:pointer;display:flex;
+                           align-items:center;justify-content:center;color:var(--text-muted);transition:all .15s ease;">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="4" r="2"/>
+                        <path d="m5 9 14 0"/>
+                        <path d="m12 9 0 6"/>
+                        <path d="m8 20 4-5 4 5"/>
+                    </svg>
+                </button>
+
                 <!-- Dark Mode Toggle with SVG Icons -->
                 <button onclick="toggleDark()" id="dark-btn"
-                    title="Ganti Tema"
+                    title="Ganti Tema Gelap / Terang"
                     aria-label="Aktifkan atau nonaktifkan mode gelap"
                     aria-pressed="false"
                     style="width:34px;height:34px;border-radius:6px;border:1px solid var(--border);
@@ -809,6 +1085,124 @@
         <footer role="contentinfo">
             &copy; {{ date('Y') }} Sistem Perpustakaan Digital Kampus PENS
         </footer>
+    </div>
+
+    <!-- ── Accessibility Modal Dialog ── -->
+    <div class="a11y-modal-backdrop" id="a11y-backdrop" onclick="closeA11yModal(event)" aria-hidden="true">
+        <div class="a11y-modal" role="dialog" aria-modal="true" aria-labelledby="a11y-dialog-title" id="a11y-dialog" onclick="event.stopPropagation()">
+            <div class="a11y-modal-header">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:28px;height:28px;border-radius:4px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="4" r="2"/><path d="m5 9 14 0"/><path d="m12 9 0 6"/><path d="m8 20 4-5 4 5"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 id="a11y-dialog-title" style="font-size:14.5px;font-weight:700;color:var(--text);margin:0;">Pengaturan Aksesibilitas</h2>
+                        <div style="font-size:11.5px;color:var(--text-muted);">Kenyamanan membaca dan akses navigasi</div>
+                    </div>
+                </div>
+                <button type="button" class="a11y-close-btn" onclick="closeA11yModal()" aria-label="Tutup menu aksesibilitas">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="a11y-modal-body">
+                <!-- 1. Text Scale -->
+                <div class="a11y-section">
+                    <label class="a11y-label">Ukuran Teks Tampilan</label>
+                    <div class="a11y-scale-group" role="radiogroup" aria-label="Pilih ukuran teks">
+                        <button type="button" class="a11y-scale-btn active" id="scale-btn-100" onclick="setTextScale('100')" role="radio" aria-checked="true">Standar (100%)</button>
+                        <button type="button" class="a11y-scale-btn" id="scale-btn-115" onclick="setTextScale('115')" role="radio" aria-checked="false">Sedang (115%)</button>
+                        <button type="button" class="a11y-scale-btn" id="scale-btn-130" onclick="setTextScale('130')" role="radio" aria-checked="false">Besar (130%)</button>
+                    </div>
+                </div>
+
+                <!-- 2. Visual & Contrast Features -->
+                <div class="a11y-section">
+                    <label class="a11y-label">Visibilitas & Kontras Tampilan</label>
+
+                    <div class="a11y-toggle-item">
+                        <div>
+                            <div class="a11y-toggle-title">Kontras Tinggi (High Contrast)</div>
+                            <div class="a11y-toggle-sub">Mempertegas batas tepi dan kontras teks maksimal (WCAG AAA)</div>
+                        </div>
+                        <label class="a11y-switch" aria-label="Toggle mode kontras tinggi">
+                            <input type="checkbox" id="toggle-high-contrast" onchange="toggleA11yFeature('highContrast', this.checked)">
+                            <span class="a11y-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="a11y-toggle-item">
+                        <div>
+                            <div class="a11y-toggle-title">Garis Bawah Semua Tautan</div>
+                            <div class="a11y-toggle-sub">Menandai semua link agar tidak hanya bergantung pada warna</div>
+                        </div>
+                        <label class="a11y-switch" aria-label="Toggle garis bawah tautan">
+                            <input type="checkbox" id="toggle-underline" onchange="toggleA11yFeature('underlineLinks', this.checked)">
+                            <span class="a11y-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="a11y-toggle-item">
+                        <div>
+                            <div class="a11y-toggle-title">Peningkatan Keterbacaan (Spasi Teks)</div>
+                            <div class="a11y-toggle-sub">Memperlebar jarak baris dan huruf untuk kemudahan membaca</div>
+                        </div>
+                        <label class="a11y-switch" aria-label="Toggle peningkatan keterbacaan">
+                            <input type="checkbox" id="toggle-readability" onchange="toggleA11yFeature('enhancedReadability', this.checked)">
+                            <span class="a11y-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="a11y-toggle-item">
+                        <div>
+                            <div class="a11y-toggle-title">Pemandu Fokus Keyboard (High Focus)</div>
+                            <div class="a11y-toggle-sub">Cincin penanda fokus tebal dan kontras saat navigasi Tab</div>
+                        </div>
+                        <label class="a11y-switch" aria-label="Toggle penanda fokus tebal">
+                            <input type="checkbox" id="toggle-focus" onchange="toggleA11yFeature('highFocus', this.checked)">
+                            <span class="a11y-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="a11y-toggle-item">
+                        <div>
+                            <div class="a11y-toggle-title">Kurangi Gerakan (Reduced Motion)</div>
+                            <div class="a11y-toggle-sub">Menonaktifkan animasi transisi untuk kenyamanan mata</div>
+                        </div>
+                        <label class="a11y-switch" aria-label="Toggle pengurangan gerakan">
+                            <input type="checkbox" id="toggle-motion" onchange="toggleA11yFeature('reducedMotion', this.checked)">
+                            <span class="a11y-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 3. Keyboard Shortcuts Helper -->
+                <div class="a11y-section">
+                    <label class="a11y-label">Pintasan Tombol Cepat (Keyboard Shortcuts)</label>
+                    <div class="a11y-keys-grid">
+                        <div class="a11y-key-row"><kbd>Alt</kbd> + <kbd>D</kbd> <span>Dashboard</span></div>
+                        <div class="a11y-key-row"><kbd>Alt</kbd> + <kbd>B</kbd> <span>Katalog Buku</span></div>
+                        <div class="a11y-key-row"><kbd>Alt</kbd> + <kbd>P</kbd> <span>Peminjaman</span></div>
+                        <div class="a11y-key-row"><kbd>Alt</kbd> + <kbd>A</kbd> <span>Data Anggota</span></div>
+                        <div class="a11y-key-row"><kbd>Alt</kbd> + <kbd>L</kbd> <span>Laporan Sirkulasi</span></div>
+                        <div class="a11y-key-row"><kbd>Alt</kbd> + <kbd>K</kbd> <span>Aksesibilitas</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="a11y-modal-footer">
+                <button type="button" class="btn btn-sm btn-out" onclick="resetA11ySettings()">
+                    Kembalikan Bawaan
+                </button>
+                <button type="button" class="btn btn-sm" onclick="closeA11yModal()">
+                    Tutup
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Toast container -->
@@ -850,10 +1244,139 @@
             const isDark = root.classList.contains('dark');
             localStorage.setItem('dark', isDark ? '0' : '1');
             applyDark(!isDark);
+            announceA11y(isDark ? 'Mode terang diaktifkan' : 'Mode gelap diaktifkan');
         }
 
         // Apply saved preference immediately
         applyDark(localStorage.getItem('dark') === '1');
+
+        /* ── Accessibility Suite (A11Y) ───────────────────────── */
+        const a11yBackdrop = document.getElementById('a11y-backdrop');
+        const a11yTrigger  = document.getElementById('a11y-trigger');
+        const a11yAnnouncer= document.getElementById('a11y-announcer');
+
+        function announceA11y(msg) {
+            if (a11yAnnouncer) {
+                a11yAnnouncer.textContent = msg;
+            }
+        }
+
+        function openA11yModal() {
+            if (a11yBackdrop) {
+                a11yBackdrop.classList.add('open');
+                a11yBackdrop.setAttribute('aria-hidden', 'false');
+                if (a11yTrigger) a11yTrigger.setAttribute('aria-expanded', 'true');
+                const closeBtn = a11yBackdrop.querySelector('.a11y-close-btn');
+                if (closeBtn) closeBtn.focus();
+                announceA11y('Menu preferensi aksesibilitas terbuka');
+            }
+        }
+
+        function closeA11yModal(event) {
+            if (event && event.target !== a11yBackdrop) return;
+            if (a11yBackdrop) {
+                a11yBackdrop.classList.remove('open');
+                a11yBackdrop.setAttribute('aria-hidden', 'true');
+                if (a11yTrigger) {
+                    a11yTrigger.setAttribute('aria-expanded', 'false');
+                    a11yTrigger.focus();
+                }
+                announceA11y('Menu aksesibilitas ditutup');
+            }
+        }
+
+        /* 1. Text Scaling */
+        function setTextScale(scale) {
+            if (scale === '100') {
+                root.removeAttribute('data-text-scale');
+            } else {
+                root.setAttribute('data-text-scale', scale);
+            }
+            localStorage.setItem('a11y_scale', scale);
+
+            ['100', '115', '130'].forEach(s => {
+                const btn = document.getElementById('scale-btn-' + s);
+                if (btn) {
+                    const isActive = s === scale;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+                }
+            });
+            announceA11y('Ukuran teks diubah ke ' + scale + '%');
+        }
+
+        /* 2. Feature Toggles */
+        const a11yFeatures = {
+            highContrast:        { class: 'high-contrast',        id: 'toggle-high-contrast', label: 'Kontras tinggi' },
+            underlineLinks:      { class: 'underline-links',      id: 'toggle-underline',     label: 'Garis bawah tautan' },
+            enhancedReadability: { class: 'enhanced-readability', id: 'toggle-readability',   label: 'Peningkatan keterbacaan' },
+            highFocus:           { class: 'high-focus',           id: 'toggle-focus',         label: 'Pemandu fokus keyboard' },
+            reducedMotion:       { class: 'reduced-motion',       id: 'toggle-motion',        label: 'Pengurangan gerakan' }
+        };
+
+        function toggleA11yFeature(featKey, active) {
+            const feat = a11yFeatures[featKey];
+            if (!feat) return;
+
+            root.classList.toggle(feat.class, active);
+            localStorage.setItem('a11y_' + featKey, active ? '1' : '0');
+
+            const checkbox = document.getElementById(feat.id);
+            if (checkbox) checkbox.checked = active;
+
+            announceA11y(feat.label + (active ? ' diaktifkan' : ' dinonaktifkan'));
+        }
+
+        /* 3. Reset Settings */
+        function resetA11ySettings() {
+            setTextScale('100');
+            Object.keys(a11yFeatures).forEach(key => toggleA11yFeature(key, false));
+            announceA11y('Semua pengaturan aksesibilitas dikembalikan ke bawaan');
+            showToast('Pengaturan aksesibilitas dikembalikan ke bawaan', 'info');
+        }
+
+        /* 4. Restore preferences on page load */
+        (function initA11y() {
+            const savedScale = localStorage.getItem('a11y_scale') || '100';
+            setTextScale(savedScale);
+
+            Object.keys(a11yFeatures).forEach(key => {
+                const isSaved = localStorage.getItem('a11y_' + key) === '1';
+                toggleA11yFeature(key, isSaved);
+            });
+        })();
+
+        /* 5. Global Keyboard Shortcuts Listener */
+        document.addEventListener('keydown', (e) => {
+            // Close modal with Escape
+            if (e.key === 'Escape' && a11yBackdrop && a11yBackdrop.classList.contains('open')) {
+                closeA11yModal();
+                return;
+            }
+
+            // Alt + Key shortcuts (Accessible navigation)
+            if (e.altKey && !e.ctrlKey && !e.metaKey) {
+                const key = e.key.toLowerCase();
+                if (key === 'k') {
+                    e.preventDefault();
+                    if (a11yBackdrop.classList.contains('open')) {
+                        closeA11yModal();
+                    } else {
+                        openA11yModal();
+                    }
+                } else if (key === 'd') {
+                    window.location.href = "{{ route('dashboard') }}";
+                } else if (key === 'b') {
+                    window.location.href = "{{ route('books.index') }}";
+                } else if (key === 'p') {
+                    window.location.href = "{{ route('loans.index') }}";
+                } else if (key === 'a') {
+                    window.location.href = "{{ route('members.index') }}";
+                } else if (key === 'l') {
+                    window.location.href = "{{ route('loans.report') }}";
+                }
+            }
+        });
 
         /* ── Toast Notification ───────────────────────────────── */
         function showToast(msg, type = 'success', duration = 3500) {
