@@ -7,21 +7,22 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
-// ── Public ─────────────────────────────────────────────────────────────────
+// ── Public ──────────────────────────────────────────────────
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ── Admin info route group (Tugas P-2) ─────────────────────────────────────
+// ── Admin info route group (Tugas P-2) ───────────────────────
 Route::prefix('admin')->group(function () {
     Route::get('/info', function () {
         return 'Admin info';
     });
 });
 
-// ── Protected (wajib login) ─────────────────────────────────────────────────
+// ── Protected (wajib login) ─────────────────────────────────
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -29,10 +30,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('books',   BookController::class);
     Route::resource('members', MemberController::class);
 
-    // /loans/report harus didaftarkan SEBELUM resource loans,
-    // supaya tidak tertangkap parameter {loan} dari loans.show
-    Route::get('/loans/report', [LoanController::class, 'report'])->name('loans.report');
-    Route::resource('loans',   LoanController::class);
+    // Laporan & Berita Acara Sirkulasi (CRUD + Cetak Real-Time)
+    Route::get('/reports/print', [ReportController::class, 'printAll'])->name('reports.print');
+    Route::resource('reports', ReportController::class);
+    Route::get('/loans/report', [ReportController::class, 'index'])->name('loans.report');
+
+    // Transaksi Peminjaman
+    Route::resource('loans', LoanController::class);
     Route::put('/loans/{id}/kembalikan', [LoanController::class, 'kembalikan'])
         ->name('loans.kembalikan');
 

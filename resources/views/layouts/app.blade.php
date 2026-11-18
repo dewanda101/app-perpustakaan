@@ -968,9 +968,9 @@
                 <span>Peminjaman</span>
             </a>
 
-            <a href="{{ route('loans.report') }}"
-               class="nav-item {{ request()->routeIs('loans.report') ? 'active' : '' }}"
-               aria-label="Laporan Sirkulasi" aria-current="{{ request()->routeIs('loans.report') ? 'page' : 'false' }}">
+            <a href="{{ route('reports.index') }}"
+               class="nav-item {{ (request()->routeIs('reports.*') || request()->routeIs('loans.report')) ? 'active' : '' }}"
+               aria-label="Laporan Sirkulasi" aria-current="{{ (request()->routeIs('reports.*') || request()->routeIs('loans.report')) ? 'page' : 'false' }}">
                 <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                     <line x1="12" y1="20" x2="12" y2="10"/>
                     <line x1="18" y1="20" x2="18" y2="4"/>

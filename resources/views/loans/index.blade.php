@@ -7,13 +7,23 @@
         <h1>Daftar Transaksi Peminjaman</h1>
         <div class="sub">Pencatatan sirkulasi peminjaman dan pengembalian buku</div>
     </div>
-    <a href="{{ route('loans.create') }}" class="btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-        <span>Tambah Peminjaman</span>
-    </a>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <a href="{{ route('reports.index') }}" class="btn btn-out">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            <span>Laporan Sirkulasi</span>
+        </a>
+        <a href="{{ route('loans.create') }}" class="btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span>Tambah Peminjaman</span>
+        </a>
+    </div>
 </div>
 
 <div class="card">
@@ -28,7 +38,7 @@
                     <th>Tgl Pinjam</th>
                     <th>Batas Kembali</th>
                     <th>Status</th>
-                    <th style="width:210px;text-align:right;">Tindakan</th>
+                    <th style="width:260px;text-align:right;">Tindakan</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,6 +65,11 @@
                         <a href="{{ route('loans.edit', $loan['id']) }}" class="btn-edit" title="Ubah status transaksi">
                             Edit
                         </a>
+                        @if($loan['status'] !== 'dikembalikan')
+                        <a href="{{ route('reports.create', ['loan_id' => $loan['id']]) }}" title="Lapor masalah keterlambatan / buku rusak / hilang" style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:4px;font-size:12px;font-weight:600;text-decoration:none;background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;">
+                            Lapor
+                        </a>
+                        @endif
                         <form class="inline" action="{{ route('loans.destroy', $loan['id']) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus catatan transaksi ini?')">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn-hapus" title="Hapus transaksi">

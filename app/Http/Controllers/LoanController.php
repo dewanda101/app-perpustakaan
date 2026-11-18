@@ -79,7 +79,7 @@ class LoanController extends Controller
 
     public function show(string $id)
     {
-        $loan = Loan::with(['member', 'user', 'loanItems.book'])->findOrFail($id);
+        $loan = Loan::with(['member', 'user', 'loanItems.book', 'reports'])->findOrFail($id);
 
         return view('loans.show', compact('loan'));
     }
